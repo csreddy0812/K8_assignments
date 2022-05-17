@@ -1,0 +1,18 @@
+[root@ip-172-31-28-137 04-controllers]# kubectl apply -f cronjob.yaml
+cronjob.batch/batch-job-every-fifteen-minutes created
+
+[root@ip-172-31-28-137 04-controllers]# kubectl get cronjob -o wide
+NAME                              SCHEDULE             SUSPEND   ACTIVE   LAST SCHEDULE   AGE    CONTAINERS   IMAGES            SELECTOR
+batch-job-every-fifteen-minutes   0,15,30,45 * * * *   False     0        <none>          113s   main         luksa/batch-job   <none>
+
+NAME                              SCHEDULE             SUSPEND   ACTIVE   LAST SCHEDULE   AGE    CONTAINERS   IMAGES            SELECTOR
+batch-job-every-fifteen-minutes   0,15,30,45 * * * *   False     0        <none>          113s   main         luksa/batch-job   <none>
+[root@ip-172-31-28-137 04-controllers]# kubectl get cronjobs | grep False | cut -d' ' -f 1 | xargs kubectl patch cronjobs -p '{"spec" : {"suspend" : true }}'
+cronjob.batch/batch-job-every-fifteen-minutes patched
+[root@ip-172-31-28-137 04-controllers]# kubectl get cronjob -o wide
+NAME                              SCHEDULE             SUSPEND   ACTIVE   LAST SCHEDULE   AGE    CONTAINERS   IMAGES            SELECTOR
+batch-job-every-fifteen-minutes   0,15,30,45 * * * *   True      0        <none>          8m7s   main         luksa/batch-job   <none>
+
+
+Kubernetes Jobs are used to create transient pods that perform specific tasks they are assigned to.
+CronJobs do the same thing, but they run tasks based on a defined schedule
