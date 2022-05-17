@@ -29,3 +29,5 @@ kubia        ClusterIP   10.99.10.99   <none>        80/TCP    5s
 [root@ip-172-31-28-137 05-services]# curl -k http://10.99.10.99
 You've hit kubia-gq7bc
 
+[root@ip-172-31-28-137 04-controllers]# curl -k http://10.99.10.99
+curl: (7) Failed to connect to 10.99.10.99 port 80 after 0 ms: Connection refused
